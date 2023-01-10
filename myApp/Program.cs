@@ -18,12 +18,13 @@ namespace myApp
                 //(Ragione_sociale,Nome_Attivita,Tipo_Attivita,Gestionale,Dimensione_fatturato,Dimensione_addetti,Indirizzo,Citta,Provincia)
                 //query.CommandText = "insert into Clusterizzazione values ('primo','primo'','primo','primo','a','a','primo','primo','primo')";
                 
-                String command = "delete from utenti where nome=\"lorenzo\"";
+               // String command = "delete from utenti where nome=\"lorenzo\"";
                 String command2 = "insert into utenti values('lorenzo','federici')";
                 
 
-                MySqlCommand query = new MySqlCommand(command,cnn);
+                MySqlCommand query = new MySqlCommand(command2,cnn);
                 MySqlDataReader mySqlDataReader= query.ExecuteReader();
+                Console.WriteLine(mySqlDataReader.ToString());
              
             cnn.Close();
 
