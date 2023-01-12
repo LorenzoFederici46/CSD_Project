@@ -2,44 +2,29 @@
 using System;
 using MySql.Data.MySqlClient;
 
-
-namespace myApp
-{
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
+namespace myApp{
+    internal class Program{  
+        static void Main(string[] args){       
             
             MySqlConnection cnn;
             string connetionString = "server=localhost;database=db;uid=root;pwd=password";
             cnn = new MySqlConnection(connetionString);
             cnn.Open();
 
-                //(Ragione_sociale,Nome_Attivita,Tipo_Attivita,Gestionale,Dimensione_fatturato,Dimensione_addetti,Indirizzo,Citta,Provincia)
-                //query.CommandText = "insert into Clusterizzazione values ('primo','primo'','primo','primo','a','a','primo','primo','primo')";
-                
-               // String command = "delete from utenti where nome=\"lorenzo\"";
-                String command2 = "insert into utenti values('lorenzo','federici')";
-                
+            var workbook = WorkBook.Load(@"C:\Users\loren\Desktop\Personal File\Unicam\4°anno\Complex System Design\Database\export_syeew_dati_2022.xlsx");
+            var worksheet = workbook.GetWorkSheet("Foglio1");
+            MySqlDataReader mySqlDataReader;
 
-                MySqlCommand query = new MySqlCommand(command2,cnn);
-                MySqlDataReader mySqlDataReader= query.ExecuteReader();
-                Console.WriteLine(mySqlDataReader.ToString());
+            for (int i=2; i<worksheet.RowCount; i++){
+
+                    var cells = worksheet[$"A{i} :M {i}"].ToList();                              
+                    String q = " insert into export_syeew values ('" + cells[0] + "','" + cells[1] + "','" + cells[2] + "','" + cells[3] + "','" + cells[4] + "','" + cells[5] + "','" + cells[6] + "','" + cells[7] + "','" + cells[8] + "','" + cells[9] + "','" + cells[10] + "','" + cells[11] + "','" + cells[12] + "')";                             
+                    MySqlCommand query = new MySqlCommand(q, cnn);
+                    mySqlDataReader = query.ExecuteReader();
+                    mySqlDataReader.Close();
+             }
              
             cnn.Close();
-
-            /*  var workbook = WorkBook.Load(@"C:\Users\lenovo\Desktop\Personal File\Unicam\4°anno\Complex System Design\Database\Clusterizzazione UNICAM.xlsx");
-                var worksheet = workbook.GetWorkSheet("Sheet1");
-                var cells = worksheet[$"A{2}:I{2}"].ToList();
-
-                var workbook1 = WorkBook.Load(@"C:\Users\lenovo\Desktop\Personal File\Unicam\4°anno\Complex System Design\Database\Clusterizzazione UNICAM.xlsx");
-                var worksheet1 = workbook1.GetWorkSheet("Sheet1");
-                var cells1 = worksheet1[$"A{2}:I{2}"].ToList();
-          */
-
-
-
-
         }
     }
 }
